@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Avatar from '@mui/material/Avatar';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector } from 'react-redux';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { MenuItem } from '@mui/material';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+
 
 export const NavBar = () => {
     const { user } = useSelector(store => store.auth);
@@ -78,84 +90,105 @@ export const NavBar = () => {
                 {
                     user ? (
                         <div>
-                            <div id="profile" className='flex items-center mt-3'>
-                                <Avatar
-                                    src="/broken-image.jpg"
-                                    onClick={handleProfileClick}
-                                    style={{ cursor: 'pointer', border: '2px solid white' }}
-                                />
-                            </div>
-                            <Menu
-                                id="profile-menu"
-                                anchorEl={anchorElProfile}
-                                open={openProfile}
-                                onClose={handleProfileClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'profile-button',
-                                }}
-                            >
-                                <MenuItem onClick={handleProfileClose}>
-                                    <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        <PersonIcon style={{ marginRight: '8px' }} />
-                                        My Profile
-                                    </Link>
-                                </MenuItem>
-                                <MenuItem onClick={handleLogoutClick}>
-                                    <LogoutIcon style={{ marginRight: '8px' }} />
-                                    Logout
-                                </MenuItem>
-                            </Menu>
-                            <Dialog
-                                open={openLogoutDialog}
-                                onClose={handleLogoutCancel}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description"
-                            >
-                                <DialogTitle id="alert-dialog-title">
-                                    {"Confirm Logout"}
-                                </DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        Are you sure you want to log out?
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={handleLogoutCancel}>Cancel</Button>
-                                    <Button onClick={handleLogoutConfirm} autoFocus>
-                                        Logout
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
+                            <Popover >
+                                <PopoverTrigger>
+                                    <div id="profile" className='flex items-center mt-3'>
+                                        <Avatar
+                                            src="/broken-image.jpg"
+                                            onClick={handleProfileClick}
+                                            style={{ cursor: 'pointer', border: '2px solid white' }}
+                                        />
+                                    </div>
+                                </PopoverTrigger>
+                                <PopoverContent className="bg-white shadow-lg rounded-lg p-4 w-full">
+                                    <div className='flex flex-col '>
+                                        <div className='flex justify-start gap-4 w-full'>
+                                            <Avatar
+                                                src="/broken-image.jpg"
+                                                onClick={handleProfileClick}
+                                                style={{ cursor: 'pointer', border: '2px solid white' }}
+                                            />
+                                            <div className='flex flex-col justify-center items-start'>
+                                                <h1 className='font-bold text-md'>Gaurang Shirodkar</h1>
+                                                <p>Information Science and Engineering</p>
+                                            </div>
+                                        </div>
+
+                                        <div className='mt-2'>
+                                            <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                <MenuItem onClick={handleProfileClose}>
+                                                    <PersonIcon style={{ marginRight: '8px' }} />
+                                                    My Profile
+                                                </MenuItem>
+                                            </Link>
+                                            <Link>
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger className='w-full'>
+                                                        <MenuItem  onClick={handleLogoutClick}>
+                                                            <LogoutIcon style={{ marginRight: '8px' }} />
+                                                            Logout
+                                                        </MenuItem>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent className="bg-white shadow-lg rounded-lg p-4 w-full">
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                You will be logged out and redirected to the home page <br /> Do you want to continue?
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction>Log out</AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                     ) : (
                         <div className='flex items-center gap-2'>
-                            <Button id="signup" variant="contained" onClick={handleSignUpClick}>Sign Up</Button>
-                            <Menu
-                                id="signup-menu"
-                                anchorEl={anchorElSignUp}
-                                open={openSignUp}
-                                onClose={handleSignUpClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'signup-button',
-                                }}
-                            >
-                                <Link to="/student-signup"><MenuItem onClick={handleSignUpClose}><PersonIcon />Student</MenuItem></Link>
-                                <Link to="/teacher-signup"><MenuItem onClick={handleSignUpClose}><ManageAccountsIcon />Teacher</MenuItem></Link>
-                            </Menu>
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button id="signup" variant="contained">Sign Up</Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="bg-white shadow-lg rounded-lg p-4">
+                                    <div className='flex flex-col'>
+                                        <Link to="/student-signup">
+                                            <MenuItem onClick={handleSignUpClose}>
+                                                <PersonIcon />Student
+                                            </MenuItem>
+                                        </Link>
+                                        <Link to="/teacher-signup">
+                                            <MenuItem onClick={handleSignUpClose}>
+                                                <ManageAccountsIcon />Teacher
+                                            </MenuItem>
+                                        </Link>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
 
-                            <Button id="login" style={{ color: "white" }} variant="outlined" onClick={handleLoginClick}>Log in</Button>
-                            <Menu
-                                id="login-menu"
-                                anchorEl={anchorElLogin}
-                                open={openLogin}
-                                onClose={handleLoginClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'login-button',
-                                }}
-                            >
-                                <Link to="/student-login"><MenuItem onClick={handleLoginClose}><PersonIcon />Student</MenuItem></Link>
-                                <Link to="/teacher-login"><MenuItem onClick={handleLoginClose}><ManageAccountsIcon />Teacher</MenuItem></Link>
-                            </Menu>
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button style={{color: "white"}} id="login" variant="outlined" onClick={handleLoginClick}>Log In</Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="bg-white shadow-lg rounded-lg p-4">
+                                    <div className='flex flex-col'>
+                                        <Link to="/student-login">
+                                            <MenuItem onClick={handleLoginClose}>
+                                                <PersonIcon />Student
+                                            </MenuItem>
+                                        </Link>
+                                        <Link to="/teacher-login">
+                                            <MenuItem onClick={handleLoginClose}>
+                                                <ManageAccountsIcon />Teacher
+                                            </MenuItem>
+                                        </Link>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                     )
                 }

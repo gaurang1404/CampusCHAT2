@@ -5,9 +5,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {useSelector} from "react-redux";
-import { departments } from '../../utils/departments';
+import { departments } from '../../data/departments';
 import { NavBar } from '../shared/NavBar';
-import CircularProgress from '@mui/material/CircularProgress';
+import {CircularProgress} from '@mui/material';
 
 
 export const SignUp = () => {
