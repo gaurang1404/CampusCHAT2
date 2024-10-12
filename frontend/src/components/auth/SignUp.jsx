@@ -25,6 +25,7 @@ export const SignUp = () => {
         usn: '',
         section: '',
         branch: '',
+        semester: '',
     });
 
     const handleChange = (e) => {
@@ -144,6 +145,17 @@ export const SignUp = () => {
                                 required
                             />
                         </div>
+                        <div className="w-full">
+                            <Autocomplete
+                                disablePortal
+                                options={departments}
+                                value={formData.branch}
+                                onChange={(event, newValue) =>
+                                    handleAutocompleteChange('branch', newValue)
+                                }
+                                renderInput={(params) => <TextField {...params} label="Branch" />}
+                            />
+                        </div>
                         <div className="flex justify-between w-[100%]">
                             <TextField
                                 className="w-[49%]"
@@ -166,22 +178,23 @@ export const SignUp = () => {
                                 required
                             />
                         </div>
-                        <div className="w-full">
-                            <Autocomplete
-                                disablePortal
-                                options={departments}
-                                value={formData.branch}
-                                onChange={(event, newValue) =>
-                                    handleAutocompleteChange('branch', newValue)
-                                }
-                                renderInput={(params) => <TextField {...params} label="Branch" />}
+                        <div className='w-full'>
+                        <TextField
+                                className="w-[49%]"
+                                id="outlined-semester"
+                                label="Semester"
+                                variant="outlined"
+                                name="semester"
+                                value={formData.semester}
+                                onChange={handleChange}
+                                required
                             />
                         </div>
                         {
                             loading ?
                                 <Button
-                                    style={{ backgroundColor: "#0B2F9F", lineHeight: "2.5rem" }}
-                                    className="w-full shadow-none"
+                                    style={{ lineHeight: "2.5rem" }}
+                                    className="w-full shadow-none bg-blue-800"
                                     variant="contained"                                    
                                     endIcon={<CircularProgress />}
                                     type="submit"
@@ -190,8 +203,8 @@ export const SignUp = () => {
                                 </Button>
                             :
                                 <Button
-                                    style={{ backgroundColor: "#0B2F9F", lineHeight: "2.5rem" }}
-                                    className="w-full shadow-none"
+                                    style={{ lineHeight: "2.5rem" }}
+                                    className="w-full shadow-none bg-blue-600 hover:bg-blue-800"
                                     variant="contained"
                                     endIcon={<ArrowUpwardIcon />}
                                     type="submit"

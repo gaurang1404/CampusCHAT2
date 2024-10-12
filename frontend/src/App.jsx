@@ -5,6 +5,12 @@ import { LogIn } from './components/auth/LogIn';
 import { SignUp } from './components/auth/SignUp';
 import { Home } from './components/home/Home';
 import store from './redux/store';
+import { StudentDashboard } from './components/dashboard/StudentDashboard';
+import { Overview } from './components/dashboard/Overview';
+import { Attendance } from './components/dashboard/Attendance';
+import { Courses } from './components/dashboard/Courses';
+import { Timetable } from './components/dashboard/Timetable';
+import { Discussion } from './components/dashboard/Discussion';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +24,32 @@ const router = createBrowserRouter([
   {
     path: '/student-signup',
     element: <SignUp />,
+  },
+  {
+    path: '/student-dashboard',
+    element: <StudentDashboard />,
+    children: [
+      {
+        index: true,
+        element: <Overview/>
+      },
+      {
+        path: 'attendance',
+        element: <Attendance/>
+      },
+      {
+        path: 'courses',
+        element: <Courses/>
+      },
+      {
+        path: 'timetable',
+        element: <Timetable/>
+      },
+      {
+        path: 'discussions',
+        element: <Discussion/>
+      },
+    ]
   },
 ]);
 

@@ -91,8 +91,8 @@ export const LogIn = () => {
                                 </Button>
                                 :
                                 <Button
-                                    style={{ backgroundColor: "#0B2F9F", lineHeight: "2.5rem" }}
-                                    className="w-full shadow-none"
+                                    style={{ lineHeight: "2.5rem" }}
+                                    className="w-full shadow-none bg-blue-600 hover:bg-blue-800"
                                     variant="contained"
                                     endIcon={<Login />}
                                     type="submit"

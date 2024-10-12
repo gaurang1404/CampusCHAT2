@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
+import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Avatar from '@mui/material/Avatar';
 import { useSelector } from 'react-redux';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import {
     Popover,
     PopoverContent,
@@ -23,7 +25,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-
+import HomeIcon from '@mui/icons-material/Home';
+import SchoolIcon from '@mui/icons-material/School';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 
 
 export const NavBar = () => {
@@ -32,6 +36,7 @@ export const NavBar = () => {
     const [anchorElLogin, setAnchorElLogin] = useState(null);
     const [anchorElProfile, setAnchorElProfile] = useState(null);
     const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+
 
     const openSignUp = Boolean(anchorElSignUp);
     const openLogin = Boolean(anchorElLogin);
@@ -77,7 +82,7 @@ export const NavBar = () => {
     };
 
     return (
-        <div className='bg-[#0B2F9F]'>
+        <div className='bg-blue-800'>
             <div className='max-w-7xl p-2 mx-auto flex justify-between'>
                 <Link to="/">
                     <div className='flex justify-start items-center'>
@@ -87,6 +92,23 @@ export const NavBar = () => {
                         <h1 className='text-4xl font-extrabold rounded-md p-2 pb-4 text-[white]'>BMS<span className='text-[white]'>CE</span></h1>
                     </div>
                 </Link>
+
+                <div className='flex justify-between items-center pb-1 text-[white] '>
+                    <Link to="/"><Button className='text- font-bold' variant="link"><HomeIcon style={{fontSize: "1.2rem"}} className='mr-1'/>Home</Button></Link>
+                    {
+                        user ? 
+                            <Link to="/student-dashboard" ><Button className='text- font-bold' variant="link"><DashboardIcon style={{fontSize: "1rem"}} className='text-xs mr-1'/>Dashboard</Button></Link>                            
+                        : null
+                    }
+                    {
+                        user ? 
+                        <Link><Button className='text- font-bold' variant="link"><CurrencyRupeeIcon style={{fontSize: "1rem"}} className='text-xs mr-1' />Fees</Button></Link>
+                        : null
+                    }
+                    <Link><Button className='text- font-bold' variant="link"><SchoolIcon style={{fontSize: "1rem"}} className='text-xs mr-[0.3rem]'/> Results</Button></Link>
+                    <Link><Button className='text- font-bold' variant="link"><ArrowOutwardIcon style={{fontSize: "1rem"}} className='text-xs mr-1'/>Official website</Button></Link>
+                </div>
+
                 {
                     user ? (
                         <div>
@@ -100,8 +122,8 @@ export const NavBar = () => {
                                         />
                                     </div>
                                 </PopoverTrigger>
-                                <PopoverContent className="bg-white shadow-lg rounded-lg p-4 w-full">
-                                    <div className='flex flex-col '>
+                                <PopoverContent className="bg-white shadow-lg p-4 w-full">
+                                    <div className='flex flex-col'>
                                         <div className='flex justify-start gap-4 w-full'>
                                             <Avatar
                                                 src="/broken-image.jpg"
@@ -123,25 +145,30 @@ export const NavBar = () => {
                                             </Link>
                                             <Link>
                                                 <AlertDialog>
-                                                    <AlertDialogTrigger className='w-full'>
-                                                        <MenuItem  onClick={handleLogoutClick}>
-                                                            <LogoutIcon style={{ marginRight: '8px' }} />
-                                                            Logout
+                                                    <AlertDialogTrigger className="w-full">
+                                                        <MenuItem>
+                                                            <LogoutIcon style={{ marginRight: "8px", color: "red" }} />
+                                                            <span className="text-[red]">Logout</span>
                                                         </MenuItem>
                                                     </AlertDialogTrigger>
-                                                    <AlertDialogContent className="bg-white shadow-lg rounded-lg p-4 w-full">
+                                                    <AlertDialogContent className="bg-white shadow-lg p-4 w-full">
                                                         <AlertDialogHeader>
                                                             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                                                             <AlertDialogDescription>
-                                                                You will be logged out and redirected to the home page <br /> Do you want to continue?
+                                                                You will be logged out and redirected to the home page.
+                                                                <br />
+                                                                Do you want to continue?
                                                             </AlertDialogDescription>
                                                         </AlertDialogHeader>
                                                         <AlertDialogFooter>
-                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                            <AlertDialogAction>Log out</AlertDialogAction>
+                                                            <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={handleLogoutConfirm} className="bg-blue-800 text-white hover:bg-blue-900 rounded-xl">
+                                                                Log out
+                                                            </AlertDialogAction>
                                                         </AlertDialogFooter>
                                                     </AlertDialogContent>
                                                 </AlertDialog>
+
                                             </Link>
                                         </div>
                                     </div>
@@ -152,7 +179,7 @@ export const NavBar = () => {
                         <div className='flex items-center gap-2'>
                             <Popover>
                                 <PopoverTrigger>
-                                    <Button id="signup" variant="contained">Sign Up</Button>
+                                    <Button className="text-[white] hover:text-white hover:bg-blue-600" id="signup" variant="outline">Sign Up</Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="bg-white shadow-lg rounded-lg p-4">
                                     <div className='flex flex-col'>
@@ -172,7 +199,7 @@ export const NavBar = () => {
 
                             <Popover>
                                 <PopoverTrigger>
-                                    <Button style={{color: "white"}} id="login" variant="outlined" onClick={handleLoginClick}>Log In</Button>
+                                    <Button style={{ color: "white" }} id="login" onClick={handleLoginClick}>Log In</Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="bg-white shadow-lg rounded-lg p-4">
                                     <div className='flex flex-col'>
