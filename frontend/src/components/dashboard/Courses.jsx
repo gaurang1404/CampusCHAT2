@@ -24,12 +24,12 @@ const CourseTable = ({ courses, totalCredits }) => {
             </TableHeader>
             <TableBody>
                 {courses.map((course) => (
-                    <TableRow key={course.name} className="hover:bg-blue-100">
+                    <TableRow key={course.name} className="hover:bg-blue-200">
                         <TableCell className="font-medium pl-[2rem]">{course.name}</TableCell>
                         <TableCell>{course.faculty}</TableCell>
                         <TableCell className="text-center">{course.credits}</TableCell>
                         <TableCell className="text-center">
-                            <Badge className={course.isEligible ? "bg-green-500 text-white" : "bg-red-500 text-white"}>
+                            <Badge className={course.isEligible ? "bg-[#34b134] text-white hover:bg-[#309d30]" : "bg-red-500 text-white hover:bg-red-700"}>
                                 {course.isEligible ? "Eligible" : "Not Eligible"}
                             </Badge>
                         </TableCell>

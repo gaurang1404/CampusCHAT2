@@ -24,7 +24,7 @@ export const SignUp = () => {
         password: '',
         usn: '',
         section: '',
-        branch: '',
+        department: '',
         semester: '',
     });
 
@@ -149,11 +149,11 @@ export const SignUp = () => {
                             <Autocomplete
                                 disablePortal
                                 options={departments}
-                                value={formData.branch}
+                                value={formData.department}
                                 onChange={(event, newValue) =>
-                                    handleAutocompleteChange('branch', newValue)
+                                    handleAutocompleteChange('department', newValue)
                                 }
-                                renderInput={(params) => <TextField {...params} label="Branch" />}
+                                renderInput={(params) => <TextField {...params} label="Department" />}
                             />
                         </div>
                         <div className="flex justify-between w-[100%]">
