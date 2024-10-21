@@ -3,6 +3,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const SemesterSchema = new Schema({
+    departmentId: {
+        type: Schema.Types.ObjectId,
+        ref: "Department",
+        required: true
+    },
+    
     number: {
         type: Number,
         min: 1,

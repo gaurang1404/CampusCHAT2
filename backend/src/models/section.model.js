@@ -3,6 +3,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const SectionSchema = new Schema({
+    semesterId: {
+        type: Schema.Types.ObjectId,
+        ref: "Semester",
+        required: true
+    },
+
     name: {
         type: String,
         required: true
@@ -16,13 +22,13 @@ const SectionSchema = new Schema({
     ],
 
     courseFacultyMapping: [{
-        course: { 
+        courseId: { 
             type: Schema.Types.ObjectId, 
             ref: 'Course',
             required: true
         },
 
-        faculty: { 
+        facultyId: { 
             type: Schema.Types.ObjectId, 
             ref: 'Faculty',
             required: true 

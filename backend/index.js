@@ -7,6 +7,10 @@ import connectDb from "./src/utils/db.js";
 import AdminRouter from "./src/routes/admin.routes.js";
 import CollegeRouter from "./src/routes/college.routes.js";
 import DepartmentRouter from "./src/routes/department.routes.js";
+import SemesterRouter from "./src/routes/semester.routes.js";
+import SectionRouter from "./src/routes/section.routes.js";
+import FacultyRouter from "./src/routes/faculty.routes.js";
+import CourseRouter from "./src/routes/course.routes.js";
 
 dotenv.config({});
 
@@ -25,7 +29,11 @@ server.get("/", (req, res) => {
 server.use("/api/v1/admin", AdminRouter);
 server.use("/api/v1/college", CollegeRouter);
 server.use("/api/v1/department", DepartmentRouter);
- 
+server.use("/api/v1/semester", SemesterRouter);
+server.use("/api/v1/section", SectionRouter);
+server.use("/api/v1/faculty", FacultyRouter);
+server.use("/api/v1/course", CourseRouter);
+
 server.use((req, res, next) => {
     res.status(404).json({
         message: "Route not found",

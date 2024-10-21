@@ -27,6 +27,11 @@ const DepartmentSchema = new Schema({
         }
     ],
 
+    headOdDepartment: {
+        type: Schema.Types.ObjectId,
+        ref: "Faculty"
+    },
+    
     faculty: [
         {
             type: Schema.Types.ObjectId, 
