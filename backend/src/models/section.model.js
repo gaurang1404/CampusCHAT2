@@ -12,28 +12,8 @@ const SectionSchema = new Schema({
     name: {
         type: String,
         required: true
-    },
+    },   
 
-    students: [
-        { 
-            type: Schema.Types.ObjectId, 
-            ref: 'Student' 
-        }
-    ],
-
-    courseFacultyMapping: [{
-        courseId: { 
-            type: Schema.Types.ObjectId, 
-            ref: 'Course',
-            required: true
-        },
-
-        facultyId: { 
-            type: Schema.Types.ObjectId, 
-            ref: 'Faculty',
-            required: true 
-        }
-    }]
 }, {timestamps: true});
 
 export const Section = mongoose.model("Section", SectionSchema);

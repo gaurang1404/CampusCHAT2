@@ -11,6 +11,11 @@ import { Attendance } from './components/dashboard/Attendance';
 import { Courses } from './components/dashboard/Courses';
 import { Timetable } from './components/dashboard/Timetable';
 import { Discussion } from './components/dashboard/Discussion';
+import { AdminSignUp } from './components/auth/AdminSignUp';
+import { AdminLogIn } from './components/auth/AdminLogIn';
+import { Toaster } from 'sonner'; // Import Toaster from sonner
+import { AddCollege } from './components/admin/AddCollege';
+import AdminDashboard from './components/admin/AdminDashboard';
 
 const router = createBrowserRouter([
   {
@@ -51,12 +56,29 @@ const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path: "/admin-signup",
+    element: <AdminSignUp/>
+  },
+  {
+    path: "/admin-login",
+    element: <AdminLogIn/>
+  },
+  {
+    path: "/add-college",
+    element: <AddCollege/>
+  },
+  {
+    path: "/admin-dashboard",
+    element: <AdminDashboard/>
+  },
 ]);
 
 function App() {
   return (
-    <Provider store={store}> 
-      <RouterProvider router={router} />
+    <Provider store={store}>
+        <Toaster position="bottom-right" />
+        <RouterProvider router={router} />
     </Provider>
   );
 }

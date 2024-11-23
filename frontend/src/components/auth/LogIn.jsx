@@ -5,9 +5,12 @@ import Button from '@mui/material/Button';
 import { Login } from '@mui/icons-material';
 import { NavBar } from '../shared/NavBar';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export const LogIn = () => {
     const { loading } = useSelector(store => store.auth);
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         collegeEmail: '',
@@ -100,6 +103,16 @@ export const LogIn = () => {
                                     Log in
                                 </Button>
                         }
+
+                        <div className="flex justify-center mt-4">
+                            <Button
+                                variant="text"
+                                style={{ color: "black" }}
+                                onClick={() => navigate('/student-signup')}
+                            >
+                                Don't have an account? <span style={{ color: "blue" }}> &nbsp; Sign up</span>
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>

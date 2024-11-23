@@ -1,18 +1,21 @@
+import { Admin } from "../models/admin.model.js";
 import { College } from "../models/college.model.js";
 
 export const addCollegeInfo = async (req, res) => {
     try{
-        const { name, state, location, principal, vicePrincipal } = req.body;
+        const { name, location } = req.body;
 
-        if(!name || !state || !location || !principal || !vicePrincipal){
+        if(!name || !location){
+            
             return res.status(400).json({
                 message: "Something is missing",
                 success: false
             })
         }
+        
 
         const alreadyAdminOfOtherCollege = await College.findOne({ adminId: req.id });
-        if(alreadyAdminOfOtherCollege){
+        if(alreadyAdminOfOtherCollege){            
             return res.status(400).json({
                 message: `You already are an admin of ${alreadyAdminOfOtherCollege.name}`,
                 success: false
@@ -30,17 +33,34 @@ export const addCollegeInfo = async (req, res) => {
         const college = {
             adminId: req.id,    
             name,
-            state,
             location,
-            principal,
-            vicePrincipal
         }
 
-        await College.create(college);
+        const newCollege = await College.create(college);
+
+        let admin = await Admin.findById(req.id);
+        if(!admin){
+            return res.status(500).json({
+                message: "Somehing went wrong, please try again later!",
+                success: false
+            })
+        }
+
+        admin.collegeId = newCollege._id;
+
+        await admin.save();
+
+        admin = admin._doc;
+
+        admin = {
+            ...admin,
+            password: null
+        }
 
         return res.status(200).json({
             message: "College added successfully",
             college,
+            admin,
             success: true
         });
         
@@ -86,6 +106,40 @@ export const updateCollege = async (req, res) => {
             existingCollege,
             success: true
         });
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({
+            message: "Somehing went wrong, please try again later!",
+            success: false
+        })
+    }
+}
+
+export const getPopulatedCollege = async (req, res) => {
+    try{
+        const college = await College.findOne({ adminId: req.id }).populate({
+            path: "departments",
+            populate: [
+                {
+                    path: "currentSemesters",
+                    populate: [
+                        {
+                            path: "courses", 
+                        },
+                        {
+                            path: "sections", // Populates the sections inside currentSemesters                           
+                        },
+                    ],
+                },
+            ],
+        });
+
+        return res.status(200).json({
+            message: "Populated College fetched",
+            college,
+            success: true
+        });
+        
     }catch(error){
         console.log(error)
         return res.status(500).json({

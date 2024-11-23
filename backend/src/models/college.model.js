@@ -14,24 +14,23 @@ const CollegeSchema = new Schema({
         required: true
     },
 
-    state: {
-        type: String,
-        required: true
-    },
-
     location: {
-        type: String,
-        required: true
-    },
-
-    principal: {
-        type: String,
-        required: true
-    },
-
-    vicePrincipal: {
-        type: String,
-        required: true
+        state: {
+            type: String,
+            required: true
+        },
+        taluka: {
+            type: String,
+            required: true
+        },
+        street: {
+            type: String,
+            required: true
+        },
+        landmark: {
+            type: String,
+            required: true
+        },        
     },
 
     departments: [

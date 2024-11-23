@@ -3,9 +3,7 @@
 @tailwind utilities;
 
 /* For the entire page */
-html {
-  overflow-y: scroll; /* Always show the vertical scrollbar */
-}
+
 
 /* To make sure scrollbars appear for specific containers */
 .container-always-scroll {

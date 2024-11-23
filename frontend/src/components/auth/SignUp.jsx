@@ -4,15 +4,15 @@ import { Divider } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { departments } from '../../data/departments';
 import { NavBar } from '../shared/NavBar';
-import {CircularProgress} from '@mui/material';
-
+import { CircularProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 export const SignUp = () => {
-    // const dispatch = useDispatch();
     const { loading } = useSelector(store => store.auth);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -46,6 +46,7 @@ export const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
+        // Handle form submission logic here
     };
 
     return (
@@ -179,7 +180,7 @@ export const SignUp = () => {
                             />
                         </div>
                         <div className='w-full'>
-                        <TextField
+                            <TextField
                                 className="w-[49%]"
                                 id="outlined-semester"
                                 label="Semester"
@@ -191,7 +192,7 @@ export const SignUp = () => {
                             />
                         </div>
                         {
-                            loading ?
+                            loading ? (
                                 <Button
                                     style={{ lineHeight: "2.5rem" }}
                                     className="w-full shadow-none bg-blue-800"
@@ -199,9 +200,8 @@ export const SignUp = () => {
                                     endIcon={<CircularProgress />}
                                     type="submit"
                                 >
-                                    
                                 </Button>
-                            :
+                            ) : (
                                 <Button
                                     style={{ lineHeight: "2.5rem" }}
                                     className="w-full shadow-none bg-blue-600 hover:bg-blue-800"
@@ -211,8 +211,18 @@ export const SignUp = () => {
                                 >
                                     Sign Up
                                 </Button>
+                            )
                         }
-
+                
+                        <div className="flex justify-center mt-4">
+                            <Button
+                                variant="text"
+                                style={{color: "black"}}
+                                onClick={() => navigate('/student-login')} 
+                            >
+                                Already have an account? <span style={{color: "blue"}}> &nbsp; Log in</span>
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>

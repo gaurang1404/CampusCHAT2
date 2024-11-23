@@ -1,0 +1,1 @@
+export const API_ENDPOINT = "http://localhost:1000/api/v1"

@@ -3,72 +3,71 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const StudentSchema = new Schema({
-    personalInfo: {
-        firstName: {
-            type: String,
-            required: true
-        },
-
-        lastName: {
-            type: String,
-            required: true
-        },
-        
-        personalEmail: {
-            type: String,
-            required: true
-        },
-
-        phoneNumber: {
-            type: String,
-            required: true
-        },
-
-        admissionType: {
-            type: String,
-            enum: ["K-CET", "COMEDK", "Management"]
-        },         
+    firstName: {
+        type: String,
+        required: true
     },
 
-    collegeInfo: {
-        collegeEmail: {
-            type: String,
-            required: true
-        },
-
-        password: {
-            type: String,
-            required: true
-        },     
-
-        usn: {
-            type: String,
-            required: true
-        },
-
-        department: { 
-            type: Schema.Types.ObjectId, 
-            ref: 'Department',
-            required: true
-        },
-
-        currentSemester: { 
-            type: Schema.Types.ObjectId, 
-            ref: 'Semester',
-            required: true
-        },
-
-        currentSection: { 
-            type: Schema.Types.ObjectId, 
-            ref: 'Section',
-            required: true
-        }
+    lastName: {
+        type: String,
+        required: true
     },
+
+    personalEmail: {
+        type: String,
+        required: true
+    },
+
+    phoneNumber: {
+        type: String,
+        required: true
+    },
+
+    admissionType: {
+        type: String,
+        enum: ["K-CET", "COMEDK", "Management"]
+    },
+
+    collegeEmail: {
+        type: String,
+        required: true
+    },
+
+    password: {
+        type: String,
+        required: true
+    },
+
+    usn: {
+        type: String,
+        required: true
+    },
+
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: 'Department',
+        required: true
+    },
+
+    currentSemester: {
+        type: Schema.Types.ObjectId,
+        ref: 'Semester',
+        required: true
+    },
+
+    section: {
+        type: Schema.Types.ObjectId,
+        ref: 'Section',
+        required: true
+    },
+    
+    
+
 
     academicHistory: [{
-        semester: { 
-            type: Schema.Types.ObjectId, 
-            ref: 'Semester' 
+        semester: {
+            type: Schema.Types.ObjectId,
+            ref: 'Semester'
         },
 
         section: {
@@ -77,9 +76,9 @@ const StudentSchema = new Schema({
         },
 
         courses: [{
-            course: { 
-                type: Schema.Types.ObjectId, 
-                ref: 'Course' 
+            course: {
+                type: Schema.Types.ObjectId,
+                ref: 'Course'
             },
 
             tests: [{
@@ -94,6 +93,6 @@ const StudentSchema = new Schema({
             }
         }]
     }]
-}, {timestamps: true});
+}, { timestamps: true });
 
 export const Student = mongoose.model("Student", StudentSchema);

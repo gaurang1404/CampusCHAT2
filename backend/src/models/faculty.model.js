@@ -29,16 +29,11 @@ const FacultySchema = new Schema({
         required: true
     },
 
-    courses: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Course'
-    }],
-
-    sections: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Section'
-    }]
-
+    position: {
+        type: String,
+        enum: ["Professor", "Associate Professor", "Assistant Professor", "Lecturer"],
+        required: true
+    },
 
 }, { timestamps: true });
 

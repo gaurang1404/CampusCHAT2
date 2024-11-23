@@ -35,11 +35,18 @@ const SemesterSchema = new Schema({
         }
     ],
 
-    isCurrentSemester: {
-        type: Boolean,
-        default: true
-    }
 
 }, {timestamps: true});
+
+SemesterSchema.pre('remove', async function(next) {
+    try {
+        // Remove all sections associated with this semester
+        await Section.deleteMany({ semesterId: this._id });
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 export const Semester = mongoose.model("Semester", SemesterSchema);

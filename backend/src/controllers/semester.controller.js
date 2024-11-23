@@ -1,9 +1,14 @@
 import { Semester } from "../models/semester.model.js";
 import { Department } from "../models/department.model.js";
+import mongoose from "mongoose";
+import { College } from "../models/college.model.js";
 
 export const addSemester = async (req, res) => {
     try {
-        const { departmentId, number, year, isCurrentSemester } = req.body;
+        let {departmentId} = req.body;
+        const { number, year, isCurrentSemester } = req.body;
+        departmentId = new mongoose.Types.ObjectId(departmentId);
+        console.log(departmentId);          
 
         const existingSemester = await Semester.findOne({ departmentId, number, year });
         if (existingSemester) {
@@ -17,7 +22,6 @@ export const addSemester = async (req, res) => {
             departmentId,
             number,
             year,
-            isCurrentSemester
         });
 
         const department = await Department.findById(departmentId);  
@@ -29,17 +33,33 @@ export const addSemester = async (req, res) => {
             });
         }
 
-        if (isCurrentSemester) {
-            department.currentSemesters.push(semester._id);
-        } else {
-            department.previousSemesters.push(semester._id);
-        }
+        department.currentSemesters.push(semester._id);        
 
         await department.save();
 
+        const college = await College.findOne({ adminId: req.id }).populate({
+            path: "departments",
+            populate: [
+                {
+                    path: "currentSemesters",
+                    populate: [
+                        {
+                            path: "courses", // Populates the courses inside currentSemesters
+                            
+                        },
+                        {
+                            path: "sections", // Populates the sections inside currentSemesters
+                            
+                        },
+                    ],
+                },
+            ],
+        });
+        
+
         return res.status(200).json({
             message: "Semester added successfully",
-            semester,
+            college,
             success: true
         });
 
@@ -113,4 +133,68 @@ export const toggleSemester = async (req, res) => {
         });
     }
 };
+
+export const deleteSemester = async (req, res) => {
+    try {
+        const { departmentId, semesterId } = req.body;
+        
+        if (!departmentId || !semesterId) {
+            return res.status(404).json({
+                message: "Both Department and Semester IDs are required",
+                success: false
+            });
+        }
+
+        const existingDepartment = await Department.findOne({ _id: departmentId });
+        if (!existingDepartment) {
+            return res.status(404).json({
+                message: "Department does not exist",
+                success: false
+            });
+        }
+
+        const existingSemester = await Semester.findOne({ _id: semesterId });
+        if (!existingSemester) {
+            return res.status(400).json({
+                message: "Semester does not exist",
+                success: false
+            });
+        }
+
+        // Delete the semester document
+        await Semester.deleteOne({ _id: semesterId });
+
+        // Update the department's currentSemesters array
+        existingDepartment.currentSemesters = existingDepartment.currentSemesters.filter(
+            semId => semId.toString() !== semesterId
+        );
+
+        await existingDepartment.save();
+
+        // Fetch and populate the updated college data
+        const college = await College.findOne({ adminId: req.id }).populate({
+            path: "departments",
+            populate: {
+                path: 'currentSemesters',
+                populate: {
+                    path: 'courses'
+                }
+            },
+        });
+
+        return res.status(200).json({
+            message: "Semester deleted successfully",
+            college,
+            success: true
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Something went wrong, please try again later!",
+            success: false
+        });
+    }
+}
+
 
